@@ -8,31 +8,37 @@ import router        from './routes/index'
 
 const app = express()
 
+// ── Trust proxy (required for Railway / Vercel) ────────────
+app.set('trust proxy', 1)
+
 // ── Security headers ──────────────────────────────────────
 app.use(helmet())
 
-// ── CORS — allow Next.js frontend ────────────────────────
+// ── CORS – allow Next.js frontend ─────────────────────────
 const allowedOrigins = [
   process.env.FRONTEND_URL ?? 'http://localhost:3000',
   'http://localhost:3000',
   'http://localhost:3001',
+  'https://portfolio-iota-woad-76.vercel.app',
+  'https://portfolio-git-main-swarnakamalis-projects.vercel.app',
 ]
 
 app.use(cors({
   origin: (origin, cb) => {
-    // Allow requests with no origin (curl, Postman)
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true)
+    // Allow all vercel preview URLs
+    if (origin.endsWith('.vercel.app')) return cb(null, true)
     cb(new Error(`CORS blocked: ${origin}`))
   },
   methods:     ['GET', 'POST', 'OPTIONS'],
   credentials: true,
 }))
 
-// ── Body parser ───────────────────────────────────────────
+// ── Body parser ────────────────────────────────────────────
 app.use(express.json({ limit: '1mb' }))
 app.use(express.urlencoded({ extended: true }))
 
-// ── Logging ───────────────────────────────────────────────
+// ── Logging ────────────────────────────────────────────────
 if (process.env.NODE_ENV !== 'production') app.use(morgan('dev'))
 
 // ── Global rate limit (100 req / 15 min per IP) ───────────
@@ -44,16 +50,16 @@ app.use(rateLimit({
   message:         { error: 'Too many requests. Try again later.' },
 }))
 
-// ── Routes ────────────────────────────────────────────────
+// ── Routes ─────────────────────────────────────────────────
 app.use('/api', router)
 
-// ── Health check ──────────────────────────────────────────
+// ── Health check ───────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'ok', ts: new Date().toISOString() }))
 
-// ── 404 handler ───────────────────────────────────────────
+// ── 404 handler ────────────────────────────────────────────
 app.use((_req, res) => res.status(404).json({ error: 'Route not found' }))
 
-// ── Global error handler ──────────────────────────────────
+// ── Global error handler ───────────────────────────────────
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('[Server Error]', err.message)
   res.status(500).json({ error: 'Internal server error' })
