@@ -4,19 +4,16 @@ function createTransporter() {
   if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
     throw new Error('GMAIL_USER and GMAIL_PASS must be set in .env')
   }
-
   return nodemailer.createTransport({
     host:   'smtp.gmail.com',
-    port:   465,
-    secure: true,
+    port:   587,
+    secure: false,
+    family: 4,
     auth: {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_PASS,
     },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  } as any)  // ← fixes TypeScript overload error
+  } as any)
 }
 
 function buildReceiverHtml(name: string, email: string, message: string): string {
@@ -25,10 +22,9 @@ function buildReceiverHtml(name: string, email: string, message: string): string
     dateStyle: 'medium',
     timeStyle: 'short',
   })
-
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Portfolio Message</title></head>
+<head><meta charset="UTF-8"><title>Portfolio Message</title></head>
 <body style="margin:0;padding:0;background:#F0F9FF;font-family:Arial,sans-serif">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;background:#F0F9FF">
   <tr><td align="center">
@@ -46,22 +42,22 @@ function buildReceiverHtml(name: string, email: string, message: string): string
               <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0284C7;margin-bottom:14px">SENDER DETAILS</div>
               <table cellpadding="0" cellspacing="0">
                 <tr><td style="padding:5px 0">
-                  <span style="font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;display:inline-block;width:75px">Name</span>
+                  <span style="font-size:11px;font-weight:600;color:#94A3B8;display:inline-block;width:75px">Name</span>
                   <span style="font-size:14px;font-weight:700;color:#0C1A2E">${name}</span>
                 </td></tr>
                 <tr><td style="padding:5px 0">
-                  <span style="font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;display:inline-block;width:75px">Email</span>
+                  <span style="font-size:11px;font-weight:600;color:#94A3B8;display:inline-block;width:75px">Email</span>
                   <a href="mailto:${email}" style="font-size:14px;font-weight:700;color:#0EA5E9;text-decoration:none">${email}</a>
                 </td></tr>
                 <tr><td style="padding:5px 0">
-                  <span style="font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;display:inline-block;width:75px">Time</span>
+                  <span style="font-size:11px;font-weight:600;color:#94A3B8;display:inline-block;width:75px">Time</span>
                   <span style="font-size:14px;font-weight:700;color:#0C1A2E">${time} IST</span>
                 </td></tr>
               </table>
             </td></tr>
           </table>
           <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#94A3B8;margin-bottom:12px">MESSAGE</div>
-          <div style="background:#F8FBFF;border-left:4px solid #0EA5E9;border-radius:0 12px 12px 0;padding:20px 24px;font-size:15px;color:#334155;line-height:1.8;white-space:pre-wrap">${message}</div>
+          <div style="background:#F8FBFF;border-left:4px solid #0EA5E9;padding:20px 24px;font-size:15px;color:#334155;line-height:1.8">${message}</div>
           <div style="margin-top:28px;text-align:center">
             <a href="mailto:${email}?subject=Re: Your message on Swarna.T Portfolio"
                style="display:inline-block;background:linear-gradient(135deg,#0EA5E9,#0284C7);color:white;padding:14px 36px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none">
@@ -72,7 +68,7 @@ function buildReceiverHtml(name: string, email: string, message: string): string
       </tr>
       <tr>
         <td style="padding:18px 40px 26px;border-top:1px solid #E0F2FE;text-align:center">
-          <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:#0C1A2E;margin-bottom:4px">Swarna<em style="color:#0EA5E9">.</em>T Portfolio</div>
+          <div style="font-family:Georgia,serif;font-size:16px;font-weight:700;color:#0C1A2E">Swarna<em style="color:#0EA5E9">.</em>T Portfolio</div>
           <div style="font-size:11px;color:#94A3B8">AI Engineer · Full-Stack Developer · Thoothukudi, TN</div>
         </td>
       </tr>
@@ -90,10 +86,10 @@ function buildAutoReplyHtml(name: string): string {
 <body style="margin:0;padding:0;background:#F0F9FF;font-family:Arial,sans-serif">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;background:#F0F9FF">
   <tr><td align="center">
-    <table width="560" cellpadding="0" cellspacing="0" style="background:white;border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(14,165,233,0.10)">
+    <table width="560" cellpadding="0" cellspacing="0" style="background:white;border-radius:20px;overflow:hidden">
       <tr>
         <td style="background:linear-gradient(135deg,#0EA5E9,#0369A1);padding:36px 40px;text-align:center">
-          <div style="font-family:Georgia,serif;font-size:38px;font-weight:700;color:white;letter-spacing:-1px;margin-bottom:6px">Swarna<em style="font-style:normal;color:#7DD3FC">.</em>T</div>
+          <div style="font-family:Georgia,serif;font-size:38px;font-weight:700;color:white">Swarna<em style="font-style:normal;color:#7DD3FC">.</em>T</div>
           <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6)">AI ENGINEER · FULL-STACK DEVELOPER</div>
         </td>
       </tr>
