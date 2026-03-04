@@ -16,11 +16,9 @@ export default function Hero() {
   const [deleting, setDeleting]   = useState(false)
   const [charIdx, setCharIdx]     = useState(0)
 
-  // Typewriter effect
   useEffect(() => {
     const current = roles[roleIdx]
     const speed   = deleting ? 50 : 90
-
     const timer = setTimeout(() => {
       if (!deleting) {
         setDisplayed(current.slice(0, charIdx + 1))
@@ -40,7 +38,6 @@ export default function Hero() {
         }
       }
     }, speed)
-
     return () => clearTimeout(timer)
   }, [charIdx, deleting, roleIdx])
 
@@ -56,41 +53,34 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden"
       style={{ paddingTop: 'var(--nav-h)' }}
     >
-      {/* ── BACKGROUND ── */}
+      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-surface-soft via-white to-sky-50" />
-
-      {/* Dot grid texture */}
       <div className="absolute inset-0 opacity-[0.35]"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(14,165,233,0.12) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
-
-      {/* Floating orbs */}
       <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)', animation: 'float 8s ease-in-out infinite' }} />
       <div className="absolute -bottom-20 -left-32 w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(2,132,199,0.06) 0%, transparent 70%)', animation: 'float 10s ease-in-out infinite reverse' }} />
-
-      {/* Noise overlay */}
       <div className="noise-overlay" />
 
-      {/* ── CONTENT ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-20">
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-16">
 
         {/* Status badge */}
-        <div className="inline-flex items-center gap-2.5 bg-white border border-sky-200 rounded-full px-4 py-2 mb-8 shadow-sky-sm
-          animate-[fadeDown_0.6s_cubic-bezier(0.16,1,0.3,1)_both]">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-[pulseGlow_2s_ease-in-out_infinite]"
-            style={{ boxShadow: '0 0 0 0 rgba(74,222,128,0.3)' }} />
-          <span className="font-mono text-[11px] font-700 text-sky-700 tracking-wide">
+        <div className="inline-flex items-center gap-2 bg-white border border-sky-200 rounded-full px-3 py-1.5 mb-6 shadow-sky-sm
+          animate-[fadeDown_0.6s_cubic-bezier(0.16,1,0.3,1)_both] max-w-[90vw]">
+          <span className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0 animate-[pulseGlow_2s_ease-in-out_infinite]" />
+          <span className="font-mono text-[10px] sm:text-[11px] font-semibold text-sky-700 tracking-wide truncate">
             Open to Full-Time Jobs &amp; Internships · Thoothukudi, TN
           </span>
         </div>
 
         {/* Heading */}
-        <h1 className="font-display text-[clamp(40px,7.5vw,82px)] font-bold leading-[1.06] text-ink mb-4
+        <h1 className="font-display text-[clamp(36px,9vw,82px)] font-bold leading-[1.06] text-ink mb-4
           animate-[fadeUp_0.8s_0.1s_cubic-bezier(0.16,1,0.3,1)_both]">
           Building
           <br />
@@ -100,17 +90,17 @@ export default function Hero() {
         </h1>
 
         {/* Typewriter role */}
-        <div className="flex items-center justify-center gap-3 mb-6
+        <div className="flex items-center justify-center gap-2 mb-5
           animate-[fadeUp_0.8s_0.2s_cubic-bezier(0.16,1,0.3,1)_both]">
-          <span className="font-mono text-xs font-semibold tracking-[4px] uppercase text-ink-muted">I am a</span>
-          <span className="font-mono text-base font-bold text-sky-600 min-w-[180px] text-left">
+          <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[3px] uppercase text-ink-muted">I am a</span>
+          <span className="font-mono text-sm sm:text-base font-bold text-sky-600 min-w-[140px] sm:min-w-[180px] text-left">
             {displayed}
-            <span className="inline-block w-0.5 h-5 bg-sky-500 ml-0.5 animate-[fadeIn_0.8s_ease_infinite_alternate]" />
+            <span className="inline-block w-0.5 h-4 sm:h-5 bg-sky-500 ml-0.5 animate-[fadeIn_0.8s_ease_infinite_alternate]" />
           </span>
         </div>
 
         {/* Sub text */}
-        <p className="text-[15px] text-ink-soft leading-[1.8] max-w-[560px] mx-auto mb-10 font-light
+        <p className="text-[13px] sm:text-[15px] text-ink-soft leading-[1.8] max-w-[90vw] sm:max-w-[560px] mx-auto mb-8 font-light
           animate-[fadeUp_0.8s_0.3s_cubic-bezier(0.16,1,0.3,1)_both]">
           B.Tech in AI & Data Science · CGPA 8.2 · 3 ML Internships at
           <span className="text-sky-600 font-medium"> Thedal Cloud</span>,{' '}
@@ -120,50 +110,50 @@ export default function Hero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-14
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-10
           animate-[fadeUp_0.8s_0.4s_cubic-bezier(0.16,1,0.3,1)_both]">
-          <button onClick={() => scrollTo('#projects')} className="btn-primary text-[14px]">
+          <button onClick={() => scrollTo('#projects')} className="btn-primary text-[13px] sm:text-[14px]">
             View Projects <span>→</span>
           </button>
-          <button onClick={() => scrollTo('#contact')} className="btn-secondary text-[14px]">
+          <button onClick={() => scrollTo('#contact')} className="btn-secondary text-[13px] sm:text-[14px]">
             Get In Touch
           </button>
           <a
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 font-mono text-[13px] font-semibold text-sky-600 hover:text-sky-800 transition-colors group"
+            className="flex items-center gap-2 font-mono text-[12px] sm:text-[13px] font-semibold text-sky-600 hover:text-sky-800 transition-colors group"
           >
-            <span className="text-base">↓</span>
+            <span>↓</span>
             <span className="group-hover:underline underline-offset-2">Resume</span>
           </a>
         </div>
 
         {/* Stats strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3
           animate-[fadeUp_0.8s_0.5s_cubic-bezier(0.16,1,0.3,1)_both]">
           {stats.map((s, i) => (
-            <div key={i} className="glass border border-white/80 rounded-2xl p-4 text-center
+            <div key={i} className="glass border border-white/80 rounded-2xl p-3 sm:p-4 text-center
               shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
-              <div className="font-display text-3xl font-bold text-ink leading-none mb-1">
+              <div className="font-display text-2xl sm:text-3xl font-bold text-ink leading-none mb-1">
                 {s.value}
-                <span className="text-sky-500 text-xl">{s.suffix}</span>
+                <span className="text-sky-500 text-lg sm:text-xl">{s.suffix}</span>
               </div>
-              <div className="font-mono text-[10px] text-ink-muted uppercase tracking-wider">{s.label}</div>
+              <div className="font-mono text-[9px] sm:text-[10px] text-ink-muted uppercase tracking-wider">{s.label}</div>
             </div>
           ))}
         </div>
 
         {/* Skill chips marquee */}
-        <div className="mt-10 overflow-hidden -mx-6 animate-[fadeIn_1s_0.7s_both]">
+        <div className="mt-8 overflow-hidden -mx-4 sm:-mx-6 animate-[fadeIn_1s_0.7s_both]">
           <div className="flex items-center gap-3 marquee-track select-none">
             {[
               'Python', 'Machine Learning', 'Deep Learning', 'NLP', 'Next.js 15',
               'TypeScript', 'MongoDB', 'Scikit-learn', 'React', 'Express.js',
-              'Data Science', 'Framer Motion', 'Tailwind CSS', 'Node.js', 'Feature Engineering',
+              'Data Science', 'Tailwind CSS', 'Node.js', 'Feature Engineering',
               'Python', 'Machine Learning', 'Deep Learning', 'NLP', 'Next.js 15',
               'TypeScript', 'MongoDB', 'Scikit-learn', 'React', 'Express.js',
-              'Data Science', 'Framer Motion', 'Tailwind CSS', 'Node.js', 'Feature Engineering',
+              'Data Science', 'Tailwind CSS', 'Node.js', 'Feature Engineering',
             ].map((chip, i) => (
               <span key={i} className="skill-pill whitespace-nowrap text-[11px]">{chip}</span>
             ))}
@@ -172,7 +162,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2
         animate-[fadeIn_1s_1.2s_both]">
         <span className="font-mono text-[9px] tracking-[3px] uppercase text-ink-muted">Scroll</span>
         <div className="w-5 h-8 rounded-full border-2 border-sky-200 flex items-start justify-center p-1">
