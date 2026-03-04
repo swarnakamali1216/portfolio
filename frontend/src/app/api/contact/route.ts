@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Forward to Express backend
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:5000'
+    const backendUrl = process.env.BACKEND_URL ?? 'http://localhost:5000'
 
     const backendRes = await fetch(`${backendUrl}/api/contact`, {
       method:  'POST',
