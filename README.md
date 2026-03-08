@@ -123,4 +123,4 @@ Update your real metrics there and everything updates across the site.
 
 ---
 
-© 2026 Swarna T. · Crafted for Excellence
+© 2026 Swarna T. 
